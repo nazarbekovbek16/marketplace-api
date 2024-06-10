@@ -1,0 +1,177 @@
+basePath: /api/
+definitions:
+  handlers.InputChangeEmail:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.Distributor:
+    properties:
+      bin:
+        type: string
+      city:
+        type: string
+      company_name:
+        type: string
+      details:
+        type: string
+      id:
+        type: integer
+      img_url:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.LoginCredentials:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+  models.RegisterInput:
+    properties:
+      bin:
+        type: string
+      city:
+        type: string
+      company_name:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      role:
+        type: string
+    required:
+    - email
+    - password
+    - role
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:4000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Duken-API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Logs in a user and returns a token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginCredentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: register user by role
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: message
+        "400":
+          description: Bad Request
+          schema:
+            type: error
+        "404":
+          description: Not Found
+          schema:
+            type: error
+        "500":
+          description: Internal Server Error
+          schema:
+            type: error
+      summary: Register user
+      tags:
+      - auth
+  /distributor/profile:
+    get:
+      consumes:
+      - application/json
+      description: Returns distributors profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Distributor'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerToken: []
+      summary: Get distributor profile
+      tags:
+      - distributor
+swagger: "2.0"

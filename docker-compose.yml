@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  marketplace-api:
+    build: ./
+    command: ./marketplace-api
+    ports:
+      - 4000:4000
+    depends_on:
+      - database
+    environment:
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USER=pg
+      - DB_PASSWORD=pass
+      - DB_NAME=crud
+      - JWT_SECRET=paste-the-generated-string-here
+      - SERVER_ADDRESS=:4000
+      - LOG_LEVEL=debug
+      - ADMIN_EMAIL=admin@duken.kz
+      - ADMIN_PASSWORD=QWERTY123
+  database:
+    container_name: database
+    image: postgres:16.2
+    restart: always
+    environment:
+      - POSTGRES_USER=pg
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=crud
+    ports:
+      - 5434:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
